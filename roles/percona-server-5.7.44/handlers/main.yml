@@ -1,0 +1,6 @@
+---
+ - name: Disable mysqld auto start
+   systemd: name=mysqld enabled=false
+
+ - name: Boot mysqld
+   shell: "mysqld --defaults-file={{ mysql_deploy_dir }}/{{ mysql_port }}_{{ mysql_instance_name }}/my.cnf &" 

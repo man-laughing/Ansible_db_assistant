@@ -1,0 +1,52 @@
+---
+  - name: Create admin user for mysql.
+    mysql_user:
+       name: "dba"
+       host: "%"
+       password: "dba_pwd_123"
+       priv: '*.*:ALL,GRANT'
+       state: present
+       login_unix_socket: "{{ mysql_deploy_dir }}/{{ mysql_port }}_{{ mysql_instance_name }}/mysql.sock"
+       login_host: "{{ ansible_default_ipv4.address }}"
+       login_port: "{{ mysql_port }}"
+       login_user: "root"
+    when:  mysql_mode == "single" or (mysql_mode == "master_slave" and mysql_role == "master")
+
+  - name: Create mysql slave user for mysql.
+    mysql_user:
+       name: "mysql_slave"
+       host: "%"
+       password: "mysql_slave_pwd"
+       priv: "*.*:REPLICATION CLIENT,REPLICATION SLAVE"
+       state: present
+       login_unix_socket: "{{ mysql_deploy_dir }}/{{ mysql_port }}_{{ mysql_instance_name }}/mysql.sock"
+       login_host: "{{ ansible_default_ipv4.address }}"
+       login_port: "{{ mysql_port }}"
+       login_user: "root"
+    when:  mysql_mode == "single" or (mysql_mode == "master_slave" and mysql_role == "master")
+
+  - name: Create monitor user for mysql.
+    mysql_user:
+       name: "monitor"
+       host: "%"
+       password: "monitor_pwd_123"
+       priv: "*.*:SELECT"
+       state: present
+       login_unix_socket: "{{ mysql_deploy_dir }}/{{ mysql_port }}_{{ mysql_instance_name }}/mysql.sock"
+       login_host: "{{ ansible_default_ipv4.address }}"
+       login_port: "{{ mysql_port }}"
+       login_user: "root"
+    when:  mysql_mode == "single" or (mysql_mode == "master_slave" and mysql_role == "master")
+
+  - name: Create backup user for mysql.
+    mysql_user:
+       name: "backup"
+       host: "%"
+       password: "backup_pwd_123"
+       priv: "*.*:RELOAD,PROCESS,LOCK TABLES,REPLICATION CLIENT"
+       state: present
+       login_unix_socket: "{{ mysql_deploy_dir }}/{{ mysql_port }}_{{ mysql_instance_name }}/mysql.sock"
+       login_host: "{{ ansible_default_ipv4.address }}"
+       login_port: "{{ mysql_port }}"
+       login_user: "root"
+    when:  mysql_mode == "single" or (mysql_mode == "master_slave" and mysql_role == "master")

@@ -1,0 +1,6 @@
+--- 
+  - name: Remove conflict mariadb-libs
+    yum: name=mariadb-libs state=absent
+
+  - name: Install MySQL-python
+    yum: name=MySQL-python state=present

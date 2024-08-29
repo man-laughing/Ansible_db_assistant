@@ -1,0 +1,19 @@
+--- 
+  - name: Create mysql deploy directory.
+    file: 
+      path: "{{ mysql_deploy_dir }}/{{ mysql_port }}_{{ mysql_instance_name }}"
+      state: directory
+      recurse: true
+      owner: mysql
+      group: mysql 
+
+  - name: Create mysql data and log directory
+    file: 
+      path: "{{ mysql_deploy_dir }}/{{ mysql_port }}_{{ mysql_instance_name }}/{{ item }}"
+      state: directory
+      recurse: true
+      owner: mysql
+      group: mysql 
+    with_items:
+      - data
+      - log

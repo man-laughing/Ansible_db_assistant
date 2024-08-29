@@ -1,0 +1,10 @@
+--- 
+ - include: config-prerequisite.yml
+ - include: transfer-mysql-package.yml
+ - include: install-mysql.yml
+ - include: create-mysql-directory.yml
+ - include: generate-my.cnf.yml
+ - include: initialize-mysql.yml
+ - include: waiting-mysqld-ready.yml
+ - include: add-user.yml
+ - include: config-master-slave.yml

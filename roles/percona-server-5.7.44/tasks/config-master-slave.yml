@@ -1,0 +1,55 @@
+---
+     - name: Register mysql master IP and Port.
+       set_fact:
+          mysql_master_ip: "{{ hostvars[item].inventory_hostname }}"      
+          mysql_master_port:  "{{ mysql_port }}"
+       when: 
+        - hostvars[item]['mysql_mode'] == 'mysql_slave'
+        - hostvars[item]['mysql_role'] == 'master'
+       with_items: "{{ groups['mysql'] }}"
+       vars:
+         ansible_facts:
+            global: true
+
+     - name: Get mysql master binlog file and position...
+       mysql_replication:
+          login_host: "{{ mysql_master_ip }}"
+          login_port: "{{ mysql_master_port }}" 
+          login_user: "{{ mysql_replication_user }}"
+          login_password: "{{ mysql_replication_pwd }}"
+          mode: getmaster
+       register: mysqlMasterStatus
+       when: 
+        - mysql_mode == "master_slave"
+        - mysql_replication_gtid == "0"
+        - mysql_role == "slave"
+
+     - name: Change master to mysql master...
+       mysql_replication:
+          login_host: "{{ inventory_hostname }} "
+          login_port: "{{ mysql_port }}"
+          login_user: "root"
+          login_unix_socket: "{{ mysql_deploy_dir }}/{{ mysql_port }}_{{ mysql_instance_name }}/mysql.sock"
+          mode: changemaster
+          master_host: "{{ mysql_master_ip }}"
+          master_port: "{{ mysql_master_port }}"
+          master_user: "{{ mysql_replication_user }}"
+          master_password: "{{ mysql_replication_pwd }}"
+          master_auto_position: 1
+       when: 
+        - mysql_mode == "master_slave"
+        - mysql_replication_gtid == "1"
+        - mysql_role == "slave"
+
+     - name: Start slave...
+       mysql_replication:
+          login_host: "{{ inventory_hostname }}"
+          login_port: "{{ mysql_port }}"
+          login_user: "root"
+          login_unix_socket: "{{ mysql_deploy_dir }}/{{ mysql_port }}_{{ mysql_instance_name }}/mysql.sock"
+          mode: startslave
+       when: 
+        - mysql_mode == "master_slave"
+        - mysql_replication_gtid == "1"
+        - mysql_role == "slave"
+

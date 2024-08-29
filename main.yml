@@ -1,0 +1,11 @@
+---
+- hosts: mysql
+  become: yes
+  vars:
+    app_name: test_app
+
+  roles:
+    - role: percona-server-5.7.44
+      when: 
+        - ansible_distribution == 'CentOS'
+        - ansible_distribution_major_version  == '7'

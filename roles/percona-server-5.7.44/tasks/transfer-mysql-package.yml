@@ -1,0 +1,6 @@
+--- 
+  - name: Extract Percona Sever 5.7.44 archive file
+    unarchive:
+      src: files/percona-server-5.7.44-all.tar.gz 
+      dest: /tmp
+      owner: root

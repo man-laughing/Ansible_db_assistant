@@ -1,0 +1,7 @@
+--- 
+  - name: Generatet mysql my.cnf
+    template: 
+      src: templates/my.cnf.j2
+      dest: "{{ mysql_deploy_dir }}/{{ mysql_port }}_{{ mysql_instance_name }}/my.cnf"
+      owner: mysql
+      group: mysql

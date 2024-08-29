@@ -1,0 +1,6 @@
+[test]
+1.1.1.1
+
+[mysql]
+10.110.19.70 mysql_role=master
+10.110.19.71 mysql_role=slave

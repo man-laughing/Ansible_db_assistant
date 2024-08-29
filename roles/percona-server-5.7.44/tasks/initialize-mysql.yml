@@ -1,0 +1,6 @@
+--- 
+  - name: Initialize the mysql server
+    shell: "mysqld --defaults-file={{ mysql_deploy_dir }}/{{ mysql_port }}_{{ mysql_instance_name }}/my.cnf --initialize-insecure"
+    notify:
+      - Boot mysqld
+  - meta: flush_handlers
