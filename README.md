@@ -7,8 +7,8 @@
 cat /etc/ansible/hosts
 
 [mysql]
-10.0.9.70
-10.0.9.71
+10.110.19.70
+10.110.19.71
 
 ```
 
@@ -51,8 +51,8 @@ ansible-playbook -i hosts main.yml  \
 cat /etc/hosts
 
 [mysql]
-10.0.9.70 mysql_role=master
-10.0.9.71 mysql_role=slave
+10.110.19.70 mysql_role=master
+10.110.19.71 mysql_role=slave
 
 ```
 
