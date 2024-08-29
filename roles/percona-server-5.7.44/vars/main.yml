@@ -3,5 +3,5 @@ mysql_port: 3306
 mysql_instance_name: "test"
 mysql_mode: "single"
 mysql_replication_user: "mysql_slave"
-mysql_replication_pwd:  "2KgZT2HNXZIgelfg"
+mysql_replication_pwd:  "mysql_slave_pwd_123"
 mysql_replication_gtid: "1"
